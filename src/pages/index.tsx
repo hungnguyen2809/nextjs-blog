@@ -1,11 +1,14 @@
-import React from 'react';
+import { HeroSection } from '@/components/home';
+import { MainLayout } from '@/layout';
+import { Box } from '@mui/material';
 
-const Home = () => {
+const HomePage = () => {
   return (
-    <div>
-      <h1 className="text-green-500">Home</h1>
-    </div>
+    <Box>
+      <HeroSection />
+    </Box>
   );
 };
 
-export default Home;
+HomePage.Layout = MainLayout;
+export default HomePage;

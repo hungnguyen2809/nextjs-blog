@@ -11,14 +11,16 @@ interface MyDocumentProps extends DocumentProps {
 
 export default function MyDocument({ emotionStyleTags }: MyDocumentProps) {
   return (
-    <Html lang="en">
+    <Html lang="en" className={roboto.className}>
       <Head>
-        <link rel="shortcut icon" href="/favicon.ico" />
         <meta name="emotion-insertion-point" content="" />
         <meta name="theme-color" content={theme.palette.primary.main} />
         {emotionStyleTags}
+
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700&display=swap" rel="stylesheet" />
       </Head>
-      <body className={roboto.className}>
+      <body>
         <Main />
         <NextScript />
       </body>
