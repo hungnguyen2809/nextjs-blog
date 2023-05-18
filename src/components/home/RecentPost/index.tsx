@@ -7,7 +7,8 @@ import PostCard from './PostCard';
 export const RecentPost: React.FC = () => {
   const [postList, setPostList] = useState<Post.PostInfo[]>([
     {
-      id: 1,
+      id: '1',
+      slug: '',
       title: 'Making a design system from scratch',
       publishedDate: '12 Feb 2020',
       tags: ['Design', 'Pattern'],
@@ -15,7 +16,8 @@ export const RecentPost: React.FC = () => {
         'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.',
     },
     {
-      id: 2,
+      id: '2',
+      slug: '',
       title: 'Creating pixel perfect icons in Figma',
       publishedDate: '12 Feb 2020',
       tags: ['Figma', 'Icon Design'],
