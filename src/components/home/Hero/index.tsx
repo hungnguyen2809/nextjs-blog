@@ -35,7 +35,7 @@ export const HeroSection: React.FC = () => {
               color: 'secondary.light',
             }}
           >
-            <Image src={avatarSrc} alt="avatar" width={230} />
+            <Image src={avatarSrc} alt="avatar" width={230} priority />
           </Box>
         </Stack>
       </Container>

@@ -22,30 +22,30 @@ export const RecentPost: React.FC = () => {
       description:
         'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.',
     },
-    {
-      id: 3,
-      title: 'When pixel perfect icons in Figma',
-      publishedDate: '12 Feb 2020',
-      tags: ['Figma', 'Icon Design'],
-      description:
-        'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.',
-    },
-    {
-      id: 4,
-      title: 'When pixel perfect icons in Figma',
-      publishedDate: '12 Feb 2020',
-      tags: ['Figma', 'Icon Design'],
-      description:
-        'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.',
-    },
-    {
-      id: 5,
-      title: 'When pixel perfect icons in Figma',
-      publishedDate: '12 Feb 2020',
-      tags: ['Figma', 'Icon Design'],
-      description:
-        'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.',
-    },
+    // {
+    //   id: 3,
+    //   title: 'When pixel perfect icons in Figma',
+    //   publishedDate: '12 Feb 2020',
+    //   tags: ['Figma', 'Icon Design'],
+    //   description:
+    //     'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.',
+    // },
+    // {
+    //   id: 4,
+    //   title: 'When pixel perfect icons in Figma',
+    //   publishedDate: '12 Feb 2020',
+    //   tags: ['Figma', 'Icon Design'],
+    //   description:
+    //     'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.',
+    // },
+    // {
+    //   id: 5,
+    //   title: 'When pixel perfect icons in Figma',
+    //   publishedDate: '12 Feb 2020',
+    //   tags: ['Figma', 'Icon Design'],
+    //   description:
+    //     'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.',
+    // },
   ]);
 
   return (
@@ -60,10 +60,18 @@ export const RecentPost: React.FC = () => {
           </Link>
         </Stack>
 
-        <Stack spacing={4} direction={{ xs: 'column', md: 'row' }}>
+        <Stack
+          spacing={4}
+          direction={{ xs: 'column', md: 'row' }}
+          sx={{
+            '& > div': {
+              width: { xs: '100%', md: '50%' },
+            },
+          }}
+        >
           {postList.map((item) => (
-            <Box key={item.id} width={{ sx: '100%', md: '50%' }}>
-              <PostCard />
+            <Box key={item.id}>
+              <PostCard post={item} />
             </Box>
           ))}
         </Stack>

@@ -12,6 +12,7 @@ const MainLayout: React.FC<LayoutProps> = ({ children }) => {
       <Box component="main" flexGrow={1}>
         {children}
       </Box>
+
       <Footer />
     </Stack>
   );

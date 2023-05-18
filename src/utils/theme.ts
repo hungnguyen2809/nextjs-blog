@@ -66,6 +66,14 @@ export let theme = createTheme({
         },
       ],
     },
+    MuiChip: {
+      variants: [
+        {
+          props: { color: 'secondary' },
+          style: { backgroundColor: '#142850', color: 'white' },
+        },
+      ],
+    },
   },
 });
 
