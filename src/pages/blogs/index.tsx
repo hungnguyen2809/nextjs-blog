@@ -1,16 +1,33 @@
-import { MainLayout } from '@/layout';
+import { PostItem } from '@/components/blog';
+import { MainLayout, ROUTES } from '@/layout';
 import { readPostList } from '@/utils/blogs';
-import { Box } from '@mui/material';
+import { Box, Container, Divider, Typography } from '@mui/material';
 import { GetStaticProps, GetStaticPropsContext } from 'next';
+import Link from 'next/link';
 
 type BlogProps = {
   blogs: Post.PostInfo[];
 };
 
 const BlogsPage = ({ blogs }: BlogProps) => {
-  console.log(blogs);
+  return (
+    <Container>
+      <Typography component="h1" variant="h4">
+        Blog
+      </Typography>
 
-  return <Box>BlogsPage</Box>;
+      <Box component="ul" sx={{ listStyleType: 'none', p: 0 }}>
+        {blogs.map((blog) => (
+          <Box component="li" key={blog.id}>
+            <Link style={{ textDecoration: 'none', color: 'black' }} href={`${ROUTES.BLOGS}/${blog.slug}`}>
+              <PostItem post={blog} />
+            </Link>
+            <Divider sx={{ my: 3 }} />
+          </Box>
+        ))}
+      </Box>
+    </Container>
+  );
 };
 
 BlogsPage.Layout = MainLayout;

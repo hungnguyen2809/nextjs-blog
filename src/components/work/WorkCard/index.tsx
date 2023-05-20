@@ -10,7 +10,7 @@ export const WorkCard: React.FC<Props> = ({ work }) => {
   return (
     <Stack spacing={2} direction={{ xs: 'column', md: 'row' }}>
       <Box position="relative" flexShrink={0} height={180} width={{ xs: '100%', md: '250px' }}>
-        <Image src={work.thumnailUrl} alt={work.description} style={{ objectFit: 'cover' }} fill priority />
+        <Image src={work.thumnailUrl} alt={work.description} style={{ objectFit: 'cover' }} fill priority sizes='100%' />
       </Box>
       <Box>
         <Typography variant="h6">{work.title}</Typography>
