@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
 :root {
   --color-primary: #ff6464;
   --color-secondary: #00a8cc;
@@ -12,3 +14,6 @@ body {
   min-height: 100vh;
   background-color: white;
 }
+
+
+@import url("./prism.css");

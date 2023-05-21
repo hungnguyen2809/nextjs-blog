@@ -13,6 +13,8 @@ Khi nhắc tới git có khá là nhiều lệnh khác nhau, tuy nhiên trong th
 
 <!-- truncate-->
 
+## Agenda
+
 ## 0. Nhận task, ví dụ ở đây task có id là 123
 
 - Tí nữa, đọc thấy tạo nhánh có số 123 thì các bạn hiểu ngầm nó chính là `taskId` nhen.
@@ -102,3 +104,19 @@ git push -u origin feature/123-address-ui
 - Ở trên là process, mình đi làm thấy nó tốt và đã apply suốt thời gian qua, thấy hiệu quả nên chia sẻ lại cho mọi người nè, mọi người đọc tham khảo, thấy hay thì có thể vận dụng nhen 😉
 
 CHÚC CẢ NHÀ SỨC KHOẺ VÀ HỌC TẬP TỐT NHÉ! ❤️
+
+
+```js[class="line-numbers"]
+  function helloWorld () {
+    console.log("Hello World")
+  }
+```
+
+
+```tsx[data-line="2,4"][class="line-numbers"]
+  function App () {
+    const [title, setTitle] = useState<string>('Learn NextJS');
+
+    return <p>{title}</p>
+  }
+```

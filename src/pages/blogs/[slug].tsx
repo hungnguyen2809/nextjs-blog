@@ -1,12 +1,17 @@
 import { MainLayout } from '@/layout';
 import { readPostList } from '@/utils/blogs';
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Container, Divider, Typography } from '@mui/material';
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next';
+import Script from 'next/script';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings/lib';
 import rehypeDocument from 'rehype-document';
 import rehypeFormat from 'rehype-format';
+import rehypeSlug from 'rehype-slug';
 import rehypeStringify from 'rehype-stringify';
 import remarkParse from 'remark-parse';
+import remarkPrism from 'remark-prism';
 import remarkRehype from 'remark-rehype';
+import remarkToc from 'remark-toc';
 import { unified } from 'unified';
 
 type BlogDetailProps = {
@@ -31,10 +36,11 @@ const BlogDetail = ({ post }: BlogDetailProps) => {
           {post?.description}
         </Typography>
 
-        {post?.mdContent ? (
-          <Typography component="p" sx={{ my: 3 }} dangerouslySetInnerHTML={{ __html: post?.mdContent }} />
-        ) : null}
+        <Divider />
+        {post?.htmlContent ? <Box sx={{ my: 3 }} dangerouslySetInnerHTML={{ __html: post?.htmlContent }} /> : null}
       </Box>
+
+      <Script src="/prism.js" strategy="afterInteractive" />
     </Container>
   );
 };
@@ -70,7 +76,11 @@ export const getStaticProps: GetStaticProps<BlogDetailProps, Params> = async (
   if (findPost.mdContent) {
     const file = await unified()
       .use(remarkParse)
+      .use(remarkToc, { heading: 'agenda' })
+      .use(remarkPrism)
       .use(remarkRehype)
+      .use(rehypeSlug)
+      .use(rehypeAutolinkHeadings, { behavior: 'wrap' })
       .use(rehypeDocument, { title: findPost.title })
       .use(rehypeFormat)
       .use(rehypeStringify)
