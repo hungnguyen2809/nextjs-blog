@@ -10,7 +10,7 @@ const HomePage = () => {
         data={{
           title: 'NextJS Tutorial | Hung Nguyen',
           description: 'Step by step tutorials to build a full CURD website using NextJS for beginners',
-          url: 'https://mkerp.ztek.site',
+          url: process.env.HOST_URL || '',
           thumbnailUrl: 'https://www.drupal.org/files/project-images/nextjs-icon-dark-background.png',
         }}
       />

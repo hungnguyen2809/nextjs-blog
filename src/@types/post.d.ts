@@ -16,5 +16,6 @@ declare namespace Post {
     author?: Author;
     mdContent?: string;
     htmlContent?: string;
+    thumbnailUrl?: string;
   }
 }

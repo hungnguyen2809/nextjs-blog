@@ -1,9 +1,10 @@
+import { Seo } from '@/components/common';
 import { MainLayout } from '@/layout';
 import { readPostList } from '@/utils/blogs';
 import { Box, Container, Divider, Typography } from '@mui/material';
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next';
 import Script from 'next/script';
-import rehypeAutolinkHeadings from 'rehype-autolink-headings/lib';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeDocument from 'rehype-document';
 import rehypeFormat from 'rehype-format';
 import rehypeSlug from 'rehype-slug';
@@ -21,6 +22,14 @@ type BlogDetailProps = {
 const BlogDetail = ({ post }: BlogDetailProps) => {
   return (
     <Container>
+      <Seo
+        data={{
+          title: `${post?.title} | Hung Nguyen`,
+          description: post?.description || '',
+          url: `${process.env.HOST_URL}/${post?.slug}`,
+          thumbnailUrl: post?.thumbnailUrl || 'https://www.drupal.org/files/project-images/nextjs-icon-dark-background.png',
+        }}
+      />
       <Typography component="h1" variant="h4">
         Blog Detail
       </Typography>

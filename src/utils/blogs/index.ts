@@ -17,6 +17,7 @@ export const readPostList = async () => {
       id: fileName,
       slug: data.slug,
       title: data.title,
+      thumbnailUrl: data.image || '',
       author: {
         name: data.author,
         title: data.author_title,
