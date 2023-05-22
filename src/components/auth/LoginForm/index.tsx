@@ -1,14 +1,15 @@
 import { InputField } from '@/components/form';
-import { Box, Button } from '@mui/material';
-import React from 'react';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Box, Button, IconButton, InputAdornment } from '@mui/material';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-type LoginFormData = {
+export type LoginFormData = {
   username: string;
   password: string;
 };
 
-type LoginFormProps = {
+export type LoginFormProps = {
   onSubmit: (data: LoginFormData) => void;
 };
 
@@ -17,13 +18,33 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
     defaultValues: { username: '', password: '' },
   });
 
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>
-      <InputField name="username" control={control} placeholder="Username" />
+      <InputField name="username" control={control} placeholder="Username" sx={{ mb: 2 }} />
       <br />
-      <InputField name="password" control={control} placeholder="Password" />
+      <InputField
+        sx={{ mb: 2 }}
+        name="password"
+        control={control}
+        placeholder="Password"
+        type={showPassword ? 'text' : 'password'}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton
+                edge="end"
+                aria-label="toggle password visibility"
+                onClick={() => setShowPassword((prev) => !prev)}
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+      />
 
-      <br />
       <Button type="submit" variant="contained">
         Login
       </Button>

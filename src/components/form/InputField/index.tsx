@@ -1,28 +1,26 @@
-import { TextField } from '@mui/material';
+import { TextField, TextFieldProps } from '@mui/material';
 import React from 'react';
 import { Control, useController } from 'react-hook-form';
 
-export interface InputFieldProps {
+export type InputFieldProps = Omit<TextFieldProps, 'onChange' | 'onBlur' | 'inputRef' | 'value'> & {
   name: string;
-  label?: string;
   control: Control<any>;
-  placeholder?: string;
-}
+};
 
-export const InputField: React.FC<InputFieldProps> = ({ name, label, control, placeholder }) => {
+export const InputField: React.FC<InputFieldProps> = ({ name, control, ...props }) => {
   const { field, fieldState } = useController({ name, control });
 
   return (
     <TextField
       id={name}
-      label={label}
-      ref={field.ref}
+      fullWidth
+      size="small"
       name={field.name}
       value={field.value}
-      variant="standard"
+      inputRef={field.ref}
       onBlur={field.onBlur}
       onChange={field.onChange}
-      placeholder={placeholder}
+      {...props}
     />
   );
 };
