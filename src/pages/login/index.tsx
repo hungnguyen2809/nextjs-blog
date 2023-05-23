@@ -2,21 +2,24 @@ import { LoginForm, LoginFormData } from '@/components/auth';
 import { Seo } from '@/components/common';
 import { useAuth } from '@/hooks';
 import { ROUTES } from '@/layout';
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Paper, Typography } from '@mui/material';
+import { useRouter } from 'next/router';
 
 function LoginPage() {
-  const { profile, isLoading, login, logout } = useAuth({ revalidateOnMount: false });
+  const router = useRouter();
+  const { login } = useAuth({ revalidateOnMount: false });
 
   const handleSubmit = async (data: LoginFormData) => {
     try {
       await login(data);
+      router.replace(ROUTES.HOME);
     } catch (error) {
       console.error(error);
     }
   };
 
   return (
-    <Container sx={{ p: 5 }}>
+    <Box pt={10} minHeight="100vh" bgcolor="whitesmoke">
       <Seo
         data={{
           title: 'Login | Learn NextJS | Hung Nguyen',
@@ -26,14 +29,14 @@ function LoginPage() {
         }}
       />
 
-      <Typography component="h1" variant="h5" fontWeight="medium">
-        Login Page
-      </Typography>
+      <Paper elevation={4} sx={{ mx: 'auto', p: 4, maxWidth: '480px' }}>
+        <Typography component="h1" variant="h5" fontWeight="medium" align="center" mb={3}>
+          Login Page
+        </Typography>
 
-      <Box mt={10}>
         <LoginForm onSubmit={handleSubmit} />
-      </Box>
-    </Container>
+      </Paper>
+    </Box>
   );
 }
 

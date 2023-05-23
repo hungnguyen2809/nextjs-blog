@@ -20,6 +20,8 @@ export const InputField: React.FC<InputFieldProps> = ({ name, control, ...props 
       inputRef={field.ref}
       onBlur={field.onBlur}
       onChange={field.onChange}
+      helperText={fieldState.error?.message}
+      error={Boolean(fieldState.error?.message)}
       {...props}
     />
   );

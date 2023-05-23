@@ -2,8 +2,8 @@ import { authApi } from '@/apiClient';
 import useSWR from 'swr';
 import { PublicConfiguration } from 'swr/_internal';
 
-export function useAuth(options: Partial<PublicConfiguration> = {}) {
-  const { data, error, isLoading, mutate } = useSWR('/profile', {
+export function useAuth(options?: Partial<PublicConfiguration>) {
+  const { data, error, isLoading, mutate } = useSWR<Auth.Profile | null, Error, any>('/profile', {
     dedupingInterval: 24 * 60 * 60 * 1000, // 1 day
     revalidateOnFocus: false,
     ...options,
