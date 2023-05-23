@@ -1,11 +1,18 @@
 import { LoginForm, LoginFormData } from '@/components/auth';
 import { Seo } from '@/components/common';
+import { useAuth } from '@/hooks';
 import { ROUTES } from '@/layout';
 import { Box, Container, Typography } from '@mui/material';
 
 function LoginPage() {
-  const handleSubmit = (data: LoginFormData) => {
-    console.log(data);
+  const { profile, isLoading, login, logout } = useAuth({ revalidateOnMount: false });
+
+  const handleSubmit = async (data: LoginFormData) => {
+    try {
+      await login(data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

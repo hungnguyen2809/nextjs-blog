@@ -1,3 +1,4 @@
+import { axiosClient } from '@/apiClient';
 import { EmptyLayout } from '@/layout';
 import { AppPropsWithLayout } from '@/models';
 import '@/styles/globals.css';
@@ -6,9 +7,15 @@ import { CacheProvider, EmotionCache } from '@emotion/react';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
 import Head from 'next/head';
+import { SWRConfig } from 'swr';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
+
+const options = {
+  shouldRetryOnError: false,
+  fetcher: (url: string) => axiosClient.get(url).then((res) => res.data),
+};
 
 export interface MyAppProps extends AppPropsWithLayout {
   emotionCache?: EmotionCache;
@@ -25,9 +32,11 @@ export default function MyApp(props: MyAppProps) {
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <SWRConfig value={options}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </SWRConfig>
       </ThemeProvider>
     </CacheProvider>
   );
