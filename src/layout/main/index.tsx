@@ -1,8 +1,11 @@
 import { LayoutProps } from '@/models';
 import { Box, Stack } from '@mui/material';
+import dynamic from 'next/dynamic';
 import React from 'react';
 import Footer from './Footer';
-import Header from './Header';
+// import Header from './Header';
+
+const Header = dynamic(() => import('./Header'), { ssr: false });
 
 const MainLayout: React.FC<LayoutProps> = ({ children }) => {
   return (

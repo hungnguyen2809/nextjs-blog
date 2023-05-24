@@ -4,8 +4,12 @@ import { Box, Container, Link as MuiLink, Stack } from '@mui/material';
 import classNames from 'classnames';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { ROUTE_LIST } from './common';
+
+//fix error: Text content does not match server-rendered HTML (DOM serve render diffirent DOM client)
+//1) trigger render one time again
+//2) use client side rendering (use dynamic import) (not SEO)
 
 const HDesktop: React.FC = () => {
   const router = useRouter();
@@ -13,6 +17,12 @@ const HDesktop: React.FC = () => {
   const isLogin = Boolean(profile?.username);
 
   const menuList = useMemo(() => ROUTE_LIST.filter((item) => !item.login || isLogin), [isLogin]);
+
+  // const [menuList, setMenuList] = useState(ROUTE_LIST.filter((item) => !item.login));
+
+  // useEffect(() => {
+  //   setMenuList(ROUTE_LIST.filter((item) => !item.login || isLogin));
+  // }, [isLogin]);
 
   const handleLogout = () => {
     logout();
