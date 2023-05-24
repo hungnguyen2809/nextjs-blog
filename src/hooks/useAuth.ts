@@ -1,12 +1,23 @@
 import { authApi } from '@/apiClient';
-import useSWR from 'swr';
-import { PublicConfiguration } from 'swr/_internal';
+import { STORAGE_KEY } from '@/constants';
+import { jsonParse } from '@/utils';
+import useSWR, { SWRConfiguration } from 'swr';
+import { useLocalStorage } from './useLocalStorage';
 
-export function useAuth(options?: Partial<PublicConfiguration>) {
-  const { data, error, isLoading, mutate } = useSWR<Auth.Profile | null, Error, any>('/profile', {
-    dedupingInterval: 24 * 60 * 60 * 1000, // 1 day
+export function useAuth(options: Partial<SWRConfiguration> = {}) {
+  const { setItem, getItem, removeItem } = useLocalStorage();
+
+  const { data, error, isLoading, mutate } = useSWR<Auth.Profile | null>('/profile', {
     revalidateOnFocus: false,
+    dedupingInterval: 24 * 60 * 60 * 1000,
+    fallbackData: jsonParse<Auth.Profile>(getItem(STORAGE_KEY.USER_INFO)),
     ...options,
+    onSuccess(data) {
+      setItem(STORAGE_KEY.USER_INFO, data || '');
+    },
+    onError() {
+      removeItem(STORAGE_KEY.USER_INFO);
+    },
   });
 
   const firstLoading = data === undefined && error === undefined; //mới đầu vào giá trị là undefined
@@ -19,6 +30,7 @@ export function useAuth(options?: Partial<PublicConfiguration>) {
   const logout = async () => {
     await authApi.logout();
     await mutate(null, false); //logout xóa data và không call lại api profile
+    removeItem(STORAGE_KEY.USER_INFO);
   };
 
   return { profile: data, error, isLoading, firstLoading, login, logout };
