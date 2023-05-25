@@ -4,6 +4,7 @@ import { useAuth } from '@/hooks';
 import { ROUTES } from '@/layout';
 import { Box, Paper, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
 
 function LoginPage() {
   const router = useRouter();
@@ -13,8 +14,12 @@ function LoginPage() {
     try {
       await login(data);
       router.replace(ROUTES.HOME);
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      if (error?.response?.data) {
+        toast.error(error.response.data.message || 'Đã có lỗi sảy ra, vui lòng thử lại sau');
+      } else {
+        console.error(error);
+      }
     }
   };
 

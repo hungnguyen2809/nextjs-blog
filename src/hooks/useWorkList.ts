@@ -1,0 +1,22 @@
+import { workApi } from '@/apiClient';
+import { QUERY_KEY } from '@/constants';
+import useSWR, { SWRConfiguration } from 'swr';
+
+interface WorkListParams {
+  params: IParams;
+  options?: SWRConfiguration;
+}
+
+const fetcher = (params: IParams) => () => workApi.getAll(params).then((res) => res.data);
+
+export function useWorkList({ params, options }: WorkListParams) {
+  const swrRes = useSWR([QUERY_KEY.WORK_LIST, params], fetcher(params), {
+    keepPreviousData: true, // giữ lại dữ liệu cũ khi đang fetch dữ liệu mới
+    revalidateOnFocus: false, // không fetch lại dữ liệu khi focus vào trang
+    fallbackData: { data: [], pagination: { _page: 1, _limit: 10, _totalRows: 0 } }, // dữ liệu mặc định khi chưa fetch được dữ liệu
+    dedupingInterval: 30 * 1000, // 30s - dữ liệu được cache trong 30s
+    ...options,
+  });
+
+  return swrRes;
+}
