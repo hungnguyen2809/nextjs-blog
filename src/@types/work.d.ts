@@ -1,12 +1,12 @@
 declare namespace Work {
   interface WorkInfo {
-    id: number;
+    id: string;
     title: string;
-    tags?: string[];
-    createAt?: string;
-    updateAt?: string;
-    thumnailUrl: string;
-    description: string;
-    fullDescription?: string;
+    createdAt: number;
+    updatedAt: number;
+    tagList: string[];
+    thumbnailUrl: string;
+    fullDescription: string;
+    shortDescription: string;
   }
 }

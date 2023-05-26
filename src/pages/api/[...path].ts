@@ -18,11 +18,13 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<any>) 
     }
 
     req.headers.cookie = '';
-    proxy.once('proxyRes', () => resolve());
+    proxy.once('proxyRes', () => {
+      resolve();
+    });
     proxy.web(req, res, {
       changeOrigin: true, //cho phép đổi baseURL (target)
       selfHandleResponse: false, //cho proxy tự handle response trả về
-      target: process.env.API_URL, 
+      target: process.env.API_URL,
     });
   });
 }

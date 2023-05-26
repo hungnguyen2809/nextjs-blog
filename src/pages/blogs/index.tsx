@@ -22,7 +22,7 @@ const BlogsPage = ({ blogs }: BlogProps) => {
         }}
       />
 
-      <Typography component="h1" variant="h4">
+      <Typography component="h1" variant="h4" fontWeight="medium">
         Blog
       </Typography>
 
