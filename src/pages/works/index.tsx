@@ -1,36 +1,49 @@
 import { Seo } from '@/components/common';
-import { WorkFilter, WorkList } from '@/components/work';
+import { WorkFilter, WorkFilterData, WorkList } from '@/components/work';
 import { useWorkList } from '@/hooks';
 import { MainLayout, ROUTES } from '@/layout';
 import { Box, Container, Pagination, Stack, Typography } from '@mui/material';
-import { useMemo, useState } from 'react';
+import { useRouter } from 'next/router';
+import { useMemo } from 'react';
 
 const WorksPage = () => {
-  const [filterPage, setFilterPage] = useState<IParams>({ _page: 1, _limit: 3 });
+  const router = useRouter();
+
+  const filterPage: IParams = useMemo(() => ({ _page: 1, _limit: 3, ...router.query }), [router.query]);
+  // const [filterPage, setFilterPage] = useState<IParams>({ _page: 1, _limit: 3 });
   const {
     isLoading,
     data: { data: listWork, pagination },
-  } = useWorkList({ params: filterPage });
-
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       const { data } = await workApi.getAll({ _page: 1, _limit: 10 });
-  //       console.log(data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   })();
-  // }, []);
-
-  const hanldeChangePagination = (event: React.ChangeEvent<unknown>, value: number) => {
-    setFilterPage((prev) => ({ ...prev, _page: value }));
-  };
+  } = useWorkList({ params: filterPage, enabled: router.isReady });
 
   const totalPage = useMemo(
     () => Math.ceil((pagination?._totalRows || 0) / (pagination?._limit || 1)),
     [pagination?._limit, pagination?._totalRows]
   );
+
+  const hanldeChangePagination = (event: React.ChangeEvent<unknown>, value: number) => {
+    // setFilterPage((prev) => ({ ...prev, _page: value }));
+    router.push(
+      {
+        pathname: router.pathname,
+        query: { ...filterPage, _page: value },
+      },
+      undefined,
+      { shallow: true } //khi thay đổi param không chạy lại getStaticProps ở trên serve chỉ chạy lại ở client (trigger re-render)
+    );
+  };
+
+  const handleSubmitFilter = (filterData: WorkFilterData) => {
+    // setFilterPage((prev) => ({ ...prev, _page: 1, title_like: filterData.search.trim() }));
+    router.push(
+      {
+        pathname: router.pathname,
+        query: { ...filterPage, _page: 1, title_like: filterData.search.trim() },
+      },
+      undefined,
+      { shallow: true }
+    );
+  };
 
   return (
     <Container>
@@ -47,8 +60,17 @@ const WorksPage = () => {
         Works
       </Typography>
 
+      {/* router.isReady: mặc định mới đầu vào query là {}, nên phải check router.isReady thì lúc đó query mới có giá trị */}
+      {/* khi đó mới có thể set giá trị mặc định cho filterPage */}
+
       <Box mt={3}>
-        <WorkFilter sx={{ mb: 3 }} />
+        {router.isReady && (
+          <WorkFilter
+            sx={{ mb: 3 }}
+            onSubmit={handleSubmitFilter}
+            defaultValues={{ search: filterPage.title_like || '' }}
+          />
+        )}
         <WorkList workList={listWork || []} loading={isLoading} />
 
         {totalPage > 0 ? (

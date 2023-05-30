@@ -4,7 +4,7 @@ import { Box, Container, Link as MuiLink, Stack } from '@mui/material';
 import classNames from 'classnames';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { ROUTE_LIST } from './common';
 
 //fix error: Text content does not match server-rendered HTML (DOM serve render diffirent DOM client)

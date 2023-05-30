@@ -1,6 +1,6 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import httpProxy from 'http-proxy';
 import Cookies from 'cookies';
+import httpProxy from 'http-proxy';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 const proxy = httpProxy.createProxyServer();
 
@@ -18,13 +18,15 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<any>) 
     }
 
     req.headers.cookie = '';
-    proxy.once('proxyRes', () => {
-      resolve();
-    });
     proxy.web(req, res, {
       changeOrigin: true, //cho phép đổi baseURL (target)
       selfHandleResponse: false, //cho proxy tự handle response trả về
       target: process.env.API_URL,
     });
+
+    // UPDATE: selfHandleResponse: false => không cần tự handle response trả về => không cần resolve
+    // proxy.once('proxyRes', () => {
+    //   resolve();
+    // });
   });
 }

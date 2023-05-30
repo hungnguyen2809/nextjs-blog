@@ -1,6 +1,6 @@
 import { InputField } from '@/components/form';
 import { Search } from '@mui/icons-material';
-import { Box, Icon, InputAdornment, SxProps, Theme } from '@mui/material';
+import { Box, Icon, InputAdornment, SxProps, Theme, debounce } from '@mui/material';
 import { useForm } from 'react-hook-form';
 
 export interface WorkFilterData {
@@ -8,22 +8,24 @@ export interface WorkFilterData {
 }
 
 interface Props {
-  onSubmit?: (data: WorkFilterData) => void;
   sx?: SxProps<Theme>;
+  defaultValues?: WorkFilterData;
+  onSubmit?: (data: WorkFilterData) => void;
 }
 
-export function WorkFilter({ onSubmit, sx }: Props) {
+export function WorkFilter({ onSubmit, sx, defaultValues }: Props) {
   const { control, handleSubmit } = useForm<WorkFilterData>({
-    defaultValues: { search: '' },
-    mode: 'onChange',
+    defaultValues: { search: '', ...defaultValues },
   });
 
   const handleSubmitData = (data: WorkFilterData) => {
     onSubmit?.(data);
   };
 
+  const debounceSearchChange = debounce(handleSubmit(handleSubmitData), 500);
+
   return (
-    <Box sx={sx} component="form">
+    <Box sx={sx} component="form" onSubmit={handleSubmit(handleSubmitData)}>
       <InputField
         name="search"
         control={control}
@@ -35,6 +37,7 @@ export function WorkFilter({ onSubmit, sx }: Props) {
             </InputAdornment>
           ),
         }}
+        onChange={() => debounceSearchChange()}
       />
     </Box>
   );
