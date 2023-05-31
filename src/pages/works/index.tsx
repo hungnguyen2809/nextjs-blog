@@ -2,12 +2,19 @@ import { Seo } from '@/components/common';
 import { WorkFilter, WorkFilterData, WorkList } from '@/components/work';
 import { useWorkList } from '@/hooks';
 import { MainLayout, ROUTES } from '@/layout';
-import { Box, Container, Pagination, Stack, Typography } from '@mui/material';
+import { Box, Container, Pagination, Skeleton, Stack, Typography } from '@mui/material';
+import { GetStaticProps, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 const WorksPage = () => {
   const router = useRouter();
+
+  const [isMountClient, setIsMountClient] = useState(false);
+
+  useEffect(() => {
+    setIsMountClient(true);
+  }, []);
 
   const filterPage: IParams = useMemo(() => ({ _page: 1, _limit: 3, ...router.query }), [router.query]);
   // const [filterPage, setFilterPage] = useState<IParams>({ _page: 1, _limit: 3 });
@@ -64,14 +71,23 @@ const WorksPage = () => {
       {/* khi đó mới có thể set giá trị mặc định cho filterPage */}
 
       <Box mt={3}>
-        {router.isReady && (
+        {router.isReady && isMountClient ? (
           <WorkFilter
             sx={{ mb: 3 }}
             onSubmit={handleSubmitFilter}
             defaultValues={{ search: filterPage.title_like || '' }}
           />
+        ) : (
+          <Skeleton
+            height={40}
+            variant="rectangular"
+            sx={{ mt: 2, mb: 1, width: '100%', verticalAlign: 'middle', display: 'inline-block' }}
+          />
         )}
-        <WorkList workList={listWork || []} loading={isLoading} />
+
+        {/* thay vì hiện nodata thì hiện loading, vì lần render html từ server chưa có data => hiện loading giống ở client */}
+        {/* => cả server và client vào lần đầu tiên đều hiện loading */}
+        <WorkList workList={listWork || []} loading={!router.isReady || isLoading} />
 
         {totalPage > 0 ? (
           <Stack alignItems="center">
@@ -86,8 +102,8 @@ const WorksPage = () => {
 WorksPage.Layout = MainLayout;
 export default WorksPage;
 
-// export const getStaticProps: GetStaticProps = async (context: GetStaticPropsContext) => {
-//   return {
-//     props: {},
-//   };
-// };
+export const getStaticProps: GetStaticProps = async (context: GetStaticPropsContext) => {
+  return {
+    props: {},
+  };
+};

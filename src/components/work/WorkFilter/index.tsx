@@ -37,7 +37,9 @@ export function WorkFilter({ onSubmit, sx, defaultValues }: Props) {
             </InputAdornment>
           ),
         }}
-        onChange={() => debounceSearchChange()}
+        onChange={() => {
+          debounceSearchChange();
+        }}
       />
     </Box>
   );
